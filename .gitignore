@@ -1,4 +1,15 @@
 images/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.webp
+
 
 jerry.txt
+
+test.txt
+
 joseph.txt
