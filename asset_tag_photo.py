@@ -4,7 +4,7 @@ import os
 
 reader = easyocr.Reader(['en'], gpu=False)
 
-i = 15
+i = 30
 
 while True:
     image_path = f'images/{i}.jpeg'
