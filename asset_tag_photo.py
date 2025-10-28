@@ -4,16 +4,17 @@ import os
 
 reader = easyocr.Reader(['en'], gpu=False)
 
-i = 30
+i = 41
 
-while True:
-    image_path = f'images/{i}.jpeg'
-    
+while i > 34:
+    image_path = f'images/10-27/{i}.png'
+    result_file = f'pile5.txt'
     if not os.path.exists(image_path):
         print(f"No more images found after index {i-1}. Exiting.")
         break
     
     print(f"\nProcessing: {image_path}")
+
     image = cv.imread(image_path)
     if image is None:
         print(f"Could not read {image_path}. Skipping.")
@@ -23,8 +24,8 @@ while True:
     text_blocks = reader.readtext(image)
     
     # Read res.txt once per image
-    if os.path.exists('jerry.txt'):
-        with open('jerry.txt', 'r') as f:
+    if os.path.exists(result_file):
+        with open(result_file, 'r') as f:
             existing_lines = {line.strip() for line in f}
     else:
         existing_lines = set()
@@ -42,8 +43,8 @@ while True:
             else:
                 print("Asset Tag already found")
 
-        elif text.startswith('211'):
-            print(f"Detected 211 pattern: {text}")
+        elif text.startswith('211') or text.startswith('910') or text.startswith('120') or text.startswith('Serial'):
+            print(f"Detected pattern: {text}")
             if text not in existing_lines:
                 new_entries.append(text)
                 new_entries.append('')
@@ -51,10 +52,12 @@ while True:
             else:
                 print("Serial num already found")
 
+    with open(result_file, 'a') as f:
+        f.write(str(i) + '\n')
     # Append new entries (if any)
     if new_entries:
-        with open('jerry.txt', 'a') as f:
+        with open(result_file, 'a') as f:
             for entry in new_entries:
                 f.write(entry + '\n')
 
-    i += 1
+    i -= 1
